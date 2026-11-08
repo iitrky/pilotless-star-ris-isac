@@ -73,7 +73,7 @@ def fig1():
     box(ax, 6.3, 2.45, 2.4, 0.9, ["Transmission side", "vehicles + road users"])
     box(ax, 6.3, 0.2, 2.4, 1.2, ["Sensors + EKF", "predicted states", "means, covariances"])
     box(ax, 3.0, 0.2, 2.3, 1.2, ["HA-TD3 agent", "belief tokens", "PCRB constraint"], accent=True)
-    box(ax, -0.25, 0.2, 2.45, 1.2, ["Control update", r"beams $\mathbf{W}$", r"anchor + residual $\delta\theta$"], fs=8)
+    box(ax, -0.25, 0.2, 2.45, 1.2, ["Control update", r"split $\beta$, anchor or", "image-source beam"], fs=8)
     arrow(ax, [(2.1, 3.45), (3.0, 3.45)], r"$\mathbf{G}$", (2.55, 3.65))
     arrow(ax, [(5.3, 4.2), (6.3, 4.2)], "reflect", (5.8, 4.4))
     arrow(ax, [(5.3, 2.9), (6.3, 2.9)], "transmit", (5.8, 3.1))
@@ -105,7 +105,7 @@ def fig2():
     ax.text((x0 + x) / 2, y0 + h + 0.42, r"one epoch $\Delta T$ (T symbols); no pilot symbols", ha="center", fontsize=8)
     ax.text(x + 0.15, y0 + h / 2, "surface steered at all\nentities (scan) or at\none vehicle (data)", fontsize=7.5, va="center")
     steps = ["Echoes of all\nsub-blocks", "EKF update\nposterior, PCRB", "Predict next\nepoch (prior)",
-             "HA-TD3 anchor\n+ residual, split", "Apply in next\nepoch"]
+             "HA-TD3 codebook\nentry, split", "Apply in next\nepoch"]
     xs = np.linspace(0.2, 8.15, len(steps))
     for i, (xx, st) in enumerate(zip(xs, steps)):
         box(ax, xx, 0.35, 1.75, 0.9, st.split("\n"), bold_first=False, accent=(i == 3), fs=7.4)
@@ -119,17 +119,17 @@ def fig2():
 def fig3():
     fig, ax = plt.subplots(figsize=(7.0, 4.4))
     ax.set_xlim(0, 10); ax.set_ylim(0, 6.2); ax.axis("off")
-    box(ax, 0.1, 4.6, 2.0, 1.4, ["Belief tokens", "per entity: mean,", "covariance, PCRB,", "zone, rate"], fs=7.6)
+    box(ax, 0.1, 4.6, 2.0, 1.4, ["Belief tokens", "mean, covariance,", "PCRB, zone, rate,", "echo attenuation"], fs=7.6)
     box(ax, 2.6, 4.6, 1.9, 1.4, ["Type MLPs", "entity embedding", "+ type embedding"], fs=7.6)
     box(ax, 5.0, 5.2, 2.3, 0.85, ["Level 1, zone r", "masked self-attention"], fs=7.6)
     box(ax, 5.0, 4.15, 2.3, 0.85, ["Level 1, zone t", "masked self-attention"], fs=7.6)
     box(ax, 7.8, 4.6, 2.0, 1.2, ["Attention pooling", r"zone summaries $z_r$, $z_t$"], fs=7.6)
-    box(ax, 0.1, 2.85, 2.0, 1.1, ["Global token", "geometry, previous", "action"], fs=7.6)
+    box(ax, 0.1, 2.85, 2.0, 1.1, ["Global token", r"occupancy, $\lambda$,", r"held split $\beta$"], fs=7.6)
     box(ax, 7.8, 2.85, 2.0, 1.1, ["Level 2", "transformer over", r"$\{z_r, z_t, z_G\}$"], fs=7.6, accent=True)
     box(ax, 4.0, 2.05, 2.0, 0.65, ["Context c"], fs=8)
-    box(ax, 0.1, 0.15, 2.25, 1.3, ["Slow head", r"energy split $\beta$", r"every $T_h$ epochs"], fs=7.6)
-    box(ax, 2.6, 0.15, 2.25, 1.3, ["Residual phase heads", r"$\delta\theta^r, \delta\theta^t$ added to", r"anchor $\theta_{geo}$(belief)"], fs=7.6, accent=True)
-    box(ax, 5.1, 0.15, 2.2, 1.3, ["Beam head", "shared over entities", "power projection"], fs=7.6)
+    box(ax, 0.1, 0.15, 2.25, 1.3, ["Slow head (actor)", r"split correction to $K_r/K$", r"every $T_h$ epochs"], fs=7.6)
+    box(ax, 2.6, 0.15, 2.25, 1.3, ["Residual codebook", r"per-vehicle $q_k(j)$: anchor", "or image source j"], fs=7.6, accent=True)
+    box(ax, 5.1, 0.15, 2.2, 1.3, ["Value heads", r"per-vehicle $q_k$", r"+ global $q_g$"], fs=7.6)
     box(ax, 7.55, 0.15, 2.25, 1.3, ["Twin critics", r"PCRB Lagrangian $\lambda$", "+ PBRS shaping"], fs=7.6)
     arrow(ax, [(2.1, 5.3), (2.6, 5.3)])
     arrow(ax, [(4.5, 5.62), (5.0, 5.62)])

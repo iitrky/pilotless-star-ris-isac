@@ -1,6 +1,6 @@
 numpy>=1.24
 scipy>=1.10
 matplotlib>=3.7
-torch>=2.1
+# torch>=2.1   (optional: earlier PyTorch agent only)
 # optional, ray tracing
 # sionna>=1.0

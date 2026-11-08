@@ -17,7 +17,9 @@ A STAR-RIS (simultaneously transmitting and reflecting reconfigurable intelligen
 | `hatd3/controllers_td.py` | Model-based controllers: genie, pilot-based, pilot-free myopic and look-ahead (Algorithm 1 without learning) |
 | `hatd3/agent.py`, `action.py`, `reward.py` | HA-TD3 (zone-masked attention, two-timescale actor, twin critics), action layout, PCRB-Lagrangian reward with shaping (Algorithm 2) |
 | `hatd3/baselines.py`, `stats.py` | PGA benchmark, statistics (mean, 95% CI) |
-| `hatd3/env_rt.py`, `scripts/sionna_export.py` | Ray-traced environment from Sionna RT exports |
+| `hatd3/site.py`, `hatd3/site_control.py` | Deterministic site model (image-method reflections, knife-edge blockage, two sites) and the controllers evaluated on it |
+| `hatd3/npnn.py`, `hatd3/agent_np.py` | NumPy autodiff and the HA-TD3 / flat-attention / MLP / DDPG agents used for all reported learning results |
+| `hatd3/env_rt.py`, `scripts/sionna_export.py` | Optional Sionna RT path (not used for the reported results) |
 | `scripts/` | Training, evaluation, theory checks, system evaluation, figures |
 | `matlab/make_trajectories.m` | Vehicle trajectories for the ray-traced scenes |
 | `results/` | JSON outputs behind every reported number |
@@ -28,8 +30,8 @@ A STAR-RIS (simultaneously transmitting and reflecting reconfigurable intelligen
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt     # numpy, scipy, matplotlib, torch; sionna is optional (ray tracing)
-pytest -q                           # 8 tests, under 2 s
+pip install -r requirements.txt     # numpy, scipy, matplotlib (torch and sionna optional)
+pytest -q                           # 9 tests, a few seconds
 ```
 
 ## Reproduce the paper
@@ -40,38 +42,28 @@ pytest -q                           # 8 tests, under 2 s
 | CRB vs Fisher information, Proposition 1 (Fig. 5), link budget | `python scripts/verify_theory.py` | `results/theory_checks.json` |
 | Geometric anchor vs perfect CSI | `python scripts/anchor_check.py` | `results/anchor_check.json` |
 | Speed sweep (Table 6, Fig. 8), look-ahead test, headroom (Table 7) | `python scripts/system_eval.py` | `results/system_eval.json` |
-| All figures | `python scripts/make_figures.py` | `figures/Fig1–Fig8.{tif,png}` |
+| Learned controllers, baselines, ablations (Tables 8–9, Figs. 9–11) | `bash run_site_training.sh 2` | `runs/`, `results/site_results.json`, `figures/Fig9–Fig11` |
+| Figures 1–8 | `python scripts/make_figures.py` | `figures/Fig1–Fig8.{tif,png}` |
 
 Each command runs on a CPU in seconds to a few minutes.
 
-### Training HA-TD3 (belief state)
+### Training HA-TD3 on the site model
 
 ```bash
-for s in 0 1 2 3 4; do
-  python scripts/train.py --belief --seed $s --out runs/hatd3_s$s                      # proposed
-  python scripts/train.py --belief --seed $s --encoder flat_attn --out runs/flat_s$s   # flat attention
-  python scripts/train.py --belief --seed $s --encoder mlp       --out runs/mlp_s$s    # MLP-TD3
-  python scripts/train.py --belief --seed $s --algo ddpg         --out runs/ddpg_s$s   # DDPG
-done
-python scripts/train.py --seed 0 --out runs/csi_hatd3_s0                               # CSI-state baseline
+python scripts/train_site.py --encoder hier --seed 0 --out runs/hatd3_s0     # proposed (about 11 min on one CPU core)
+python scripts/eval_site.py --run runs/hatd3_s0                              # held-out site-A episodes
+python scripts/eval_site.py --run runs/hatd3_s0 --site B                     # unseen site
+python scripts/eval_site.py --baseline model                                 # pilot-free model-based reference
 ```
-
-### Ray tracing
-
-```bash
-python scripts/sionna_export.py --scene simple_street_canyon --out rt/train   # training scene
-python scripts/sionna_export.py --scene munich --out rt/test                  # unseen test scene
-```
+Everything runs on NumPy; PyTorch is not needed for the reported results. `run_site_training.sh` trains all 19 runs (3 seeds of four learners and 7 ablations) and then writes `results/site_results.json` and Figs. 9–11.
 
 ## Status
 
 | Part | Status |
 | --- | --- |
-| Theory checks, model-based controllers, full-system speed sweep, figures, unit tests | Run; outputs in `results/` and `figures/` |
-| HA-TD3 and DRL baselines (PyTorch) | Implemented and syntax-checked; training runs for the paper's Tables 8–10 are in progress |
-| Sionna RT export and ray-traced environment | Implemented for Sionna RT ≥ 1.0; check API names against your installed version |
-| `scripts/evaluate.py` | Evaluates the CSI-state setting; belief-state evaluation is done inside `train.py` (`--belief`) |
-| USRP testbed | Hardware specific and not included |
+| Theory checks, statistical-model system results, site-model learning results, figures, unit tests | Run; outputs in `results/`, `runs/` and `figures/` |
+| PyTorch agent (`hatd3/agent.py`, `scripts/train.py`) and Sionna RT path | Earlier implementation, kept for reference; not used for the reported results |
+| USRP testbed | Not part of this study |
 
 ## Citation
 
