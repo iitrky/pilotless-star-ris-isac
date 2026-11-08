@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Belief State Reinforcement Learning for Pilotless Intelligent Surface Control in Vehicular Sensing and Communication"
+type: software
+license: MIT
+repository-code: "https://github.com/iitrky/pilotless-star-ris-isac"
+authors:
+  - family-names: Marisargunam
+    given-names: S.
+    affiliation: "Saveetha Engineering College, Chennai, India"
+    orcid: "https://orcid.org/0009-0008-5157-2048"
+  - family-names: "Arul Dalton"
+    given-names: G.
+    affiliation: "Saveetha Engineering College, Chennai, India"
+    orcid: "https://orcid.org/0000-0002-5981-7176"
+keywords: [STAR-RIS, ISAC, reinforcement learning, TD3, vehicular networks, Kalman filter]

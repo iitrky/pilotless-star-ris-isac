@@ -1,0 +1,27 @@
+{
+  "crb_closed_form_vs_fim": {
+    "trials": 200,
+    "max_rel_err": 4.049548927717813e-09,
+    "median_rel_err": 5.852415400047691e-10
+  },
+  "beta_scaling_ris_sensors": {
+    "nu": 1,
+    "fitted_loglog_slope": -1.0000000000000002,
+    "crb_times_beta^nu_rel_spread": 1.2191098692706664e-15
+  },
+  "beta_scaling_bs": {
+    "nu": 2,
+    "fitted_loglog_slope": -2.0000000000000036,
+    "crb_times_beta^nu_rel_spread": 3.8816932290383505e-15
+  },
+  "link_budget_focused_beam": {
+    "ris_sensors": {
+      "echo_snr_dB_median": 4.678001580269201,
+      "sqrt_crb_deg_median": 0.5085334141484377
+    },
+    "bs": {
+      "echo_snr_dB_median": -37.567948765015274,
+      "sqrt_crb_deg_median": 2716.4183093879983
+    }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "seeds": 4,
+  "gamma_track": 0.001,
+  "model": "statistical, Rician K=6 dB, TD-ISAC",
+  "expA": {
+    "N=64,v=30": {
+      "genie": 2.5972942058319517,
+      "pilot_based": 1.637227614817171,
+      "pilot_free": 2.4871374580346672,
+      "eta": 0.9575878822083617,
+      "overhead": 0.3696410629412147,
+      "tau_p": 90
+    },
+    "N=64,v=60": {
+      "genie": 2.6800035365867743,
+      "pilot_based": 0.6987248246864747,
+      "pilot_free": 2.578802077739826,
+      "eta": 0.9622383114554255,
+      "overhead": 0.7392821258824294,
+      "tau_p": 90
+    },
+    "N=64,v=90": {
+      "genie": 2.714475298484482,
+      "pilot_based": 0.0,
+      "pilot_free": 2.616045524629195,
+      "eta": 0.9637389318258885,
+      "overhead": 1.0,
+      "tau_p": 90
+    },
+    "N=64,v=120": {
+      "genie": 2.6413342519423524,
+      "pilot_based": 0.0,
+      "pilot_free": 2.5407598870944135,
+      "eta": 0.9619228937897656,
+      "overhead": 1.0,
+      "tau_p": 90
+    },
+    "N=64,v=150": {
+      "genie": 2.600337721095587,
+      "pilot_based": 0.0,
+      "pilot_free": 2.513896861319573,
+      "eta": 0.9667578333865056,
+      "overhead": 1.0,
+      "tau_p": 90
+    },
+    "N=256,v=30": {
+      "genie": 5.118955625883572,
+      "pilot_based": 0.0,
+      "pilot_free": 4.928522853509071,
+      "eta": 0.9627985108111518,
+      "overhead": 1.0,
+      "tau_p": 342
+    },
+    "N=256,v=60": {
+      "genie": 5.132775098688866,
+      "pilot_based": 0.0,
+      "pilot_free": 4.941017089073862,
+      "eta": 0.9626404808455397,
+      "overhead": 1.0,
+      "tau_p": 342
+    },
+    "N=256,v=90": {
+      "genie": 5.182319125070794,
+      "pilot_based": 0.0,
+      "pilot_free": 4.994189095754553,
+      "eta": 0.9636977143290706,
+      "overhead": 1.0,
+      "tau_p": 342
+    },
+    "N=256,v=120": {
+      "genie": 5.23494680934473,
+      "pilot_based": 0.0,
+      "pilot_free": 5.048630151238283,
+      "eta": 0.9644090637609042,
+      "overhead": 1.0,
+      "tau_p": 342
+    },
+    "N=256,v=150": {
+      "genie": 5.2773232851235345,
+      "pilot_based": 0.0,
+      "pilot_free": 5.091916548075582,
+      "eta": 0.9648672770207951,
+      "overhead": 1.0,
+      "tau_p": 342
+    }
+  },
+  "expB_nonmyopic_full_system": {
+    "finding": "lookahead == myopic (0.0% gain) in all tested settings",
+    "settings": "Nx in {32,64}; Gamma in {1e-3,1e-2}; sigma_a 3 or 10 m/s^2; dT 5 or 20 ms; also K=8 with 2 served per epoch; 3 seeds each",
+    "reason": "data sub-slot echoes keep served-vehicle posterior variance ~1e-5, gain loss <1% (Lemma 1)"
+  },
+  "headroom_eta_120kmh_Nx32": {
+    "K=6dB": 0.965,
+    "K=0dB rich scattering": 0.861,
+    "1-bit": 0.956,
+    "K=0dB+1-bit": 0.847
+  }
+}

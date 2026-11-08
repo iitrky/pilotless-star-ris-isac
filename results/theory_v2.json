@@ -1,0 +1,74 @@
+{
+  "lemma1_max_rel_err_vs_montecarlo_200k": {
+    "Nx=8": 0.0008226518410809993,
+    "Nx=16": 0.0009352372639441953,
+    "Nx=32": 0.003810887297433904
+  },
+  "lemma1_taylor_check_Nx16": {
+    "exact": 0.9979079653094575,
+    "taylor": 0.9979027090647685
+  },
+  "theorem1_pilot_limits_7GHz_SCS120k": {
+    "K6_N64_M16": {
+      "pilots": 90,
+      "pilot_time_ms": 0.8035714285714287,
+      "v_pilots_fill_Tc_kmh": 81.15981422976
+    },
+    "K6_N256_M16": {
+      "pilots": 342,
+      "pilot_time_ms": 3.053571428571429,
+      "v_pilots_fill_Tc_kmh": 21.357845849936844
+    },
+    "K6_N1024_M64": {
+      "pilots": 1110,
+      "pilot_time_ms": 9.910714285714286,
+      "v_pilots_fill_Tc_kmh": 6.580525478088648
+    },
+    "K2_N64_M16": {
+      "pilots": 70,
+      "pilot_time_ms": 0.625,
+      "v_pilots_fill_Tc_kmh": 104.34833258112
+    }
+  },
+  "theorem1_vstar_kmh_examples_N64": {
+    "Rsense/Rcsi=0.5": 40.57990711488,
+    "Rsense/Rcsi=0.7": 24.347944268928003,
+    "Rsense/Rcsi=0.9": 8.115981422975999
+  },
+  "theorem2_nonmyopic_gain_over_kappa_q_grid": {
+    "Nx=16,Gamma=0.001": {
+      "max_pct": 3.741997547600982,
+      "median_pct": 1.4331959565719135,
+      "min_pct": 0.0
+    },
+    "Nx=16,Gamma=0.01": {
+      "max_pct": 24.303922697141186,
+      "median_pct": 11.778897100101009,
+      "min_pct": 0.0
+    },
+    "Nx=32,Gamma=0.001": {
+      "max_pct": 13.055863557922809,
+      "median_pct": 4.99236892588654,
+      "min_pct": 0.0
+    },
+    "Nx=32,Gamma=0.01": {
+      "max_pct": 50.1743220532509,
+      "median_pct": 20.973615939527484,
+      "min_pct": 0.0
+    },
+    "Nx=64,Gamma=0.001": {
+      "max_pct": 31.607890082559276,
+      "median_pct": 11.145492217628316,
+      "min_pct": 0.0
+    },
+    "Nx=64,Gamma=0.01": {
+      "max_pct": 90.96630287735269,
+      "median_pct": 37.23282868445987,
+      "min_pct": 0.0
+    }
+  },
+  "theorem2_example_Nx32": {
+    "gain_pct": 50.1743220532509,
+    "frac_nondecreasing_steps": 0.8681672025723473
+  }
+}

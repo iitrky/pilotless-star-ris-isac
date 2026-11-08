@@ -1,0 +1,17 @@
+{
+  "after_0_epochs": {
+    "anchor_over_csi_median": 0.7662518656808861,
+    "anchor_p10": 0.031111386323936667,
+    "random_over_csi_median": 0.0028392477935460366
+  },
+  "after_5_epochs": {
+    "anchor_over_csi_median": 0.8711467983584702,
+    "anchor_p10": 0.8404444215937432,
+    "random_over_csi_median": 0.002984263950457976
+  },
+  "after_20_epochs": {
+    "anchor_over_csi_median": 0.8780522245124402,
+    "anchor_p10": 0.8586343061516729,
+    "random_over_csi_median": 0.004098773041152829
+  }
+}
