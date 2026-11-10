@@ -2,7 +2,7 @@
 
 Code for the paper
 
-> S. Marisargunam and G. Arul Dalton, *Belief State Reinforcement Learning for Pilotless Intelligent Surface Control in Vehicular Sensing and Communication*, submitted to SN Computer Science.
+>  G. Arul Dalton and S. Marisargunam, *Belief State Reinforcement Learning for Pilotless Intelligent Surface Control in Vehicular Sensing and Communication*, submitted to SN Computer Science.
 
 A STAR-RIS (simultaneously transmitting and reflecting reconfigurable intelligent surface) serves vehicles on both sides of a façade while sensors on the surface track them from echoes. No pilots are sent: an extended Kalman filter (EKF) turns echoes into beliefs, a geometric anchor steers the surface, and **HA-TD3** (hierarchical-attention TD3) learns a site-specific residual from those beliefs under a posterior Cramér–Rao bound (PCRB) constraint.
 
