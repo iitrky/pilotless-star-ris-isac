@@ -178,3 +178,31 @@ class SiteEnv(BeliefEnv):
         self.p_ent = self.p_ent + self.v_ent * self.dT
         self.p_veh, self.p_tgt = self.p_ent[: cfg.K], self.p_ent[cfg.K:]
         self._refresh_true()
+
+
+def random_site(seed):
+    """Procedurally generated street canyon (used for site-randomised training and held-out site C).
+
+    Façade distance 18-34 m per side with 0-2 side-street gaps, reflection coefficient 0.35-0.75,
+    2-3 parked trucks / shelters and 1-4 tree canopies per side, lamp posts every 20-30 m."""
+    r = np.random.default_rng(seed)
+    screens, facades, scat = [], [], []
+    for s in (1, -1):
+        D = r.uniform(18, 34)
+        edges = [-70.0]
+        for _ in range(r.integers(0, 3)):
+            g = r.uniform(-55, 55)
+            edges += [g - r.uniform(4, 8), g + r.uniform(4, 8)]
+        edges = sorted(edges) + [70.0]
+        gam = r.uniform(0.35, 0.75)
+        for a, b in zip(edges[0::2], edges[1::2]):
+            if b > a:
+                facades.append(Facade(s * D, a, b, gam))
+        for _ in range(r.integers(2, 4)):
+            x = r.uniform(-60, 60); L = r.uniform(6, 12)
+            h, cap = (4.2, 30.0) if r.random() < 0.7 else (3.0, 25.0)
+            screens.append(Screen(s * r.uniform(4.0, 6.0), x - L / 2, x + L / 2, h, cap))
+        screens += _trees(s * r.uniform(6.0, 7.5), list(r.uniform(-60, 60, r.integers(1, 5))))
+        sp = r.uniform(20, 30)
+        scat += [(x, s * r.uniform(3.0, 4.5), 6.0, r.uniform(0.5, 2.0)) for x in np.arange(-60, 61, sp)]
+    return SiteLayout(f"R{seed}", screens=screens, facades=facades, scatterers=scat)

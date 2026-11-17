@@ -6,7 +6,7 @@ import argparse, json, os, sys, time
 import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from hatd3.config import SysConfig
-from hatd3.site import SiteEnv, SITE_A, SITE_B
+from hatd3.site import SiteEnv, SITE_A, SITE_B, random_site
 from hatd3.site_control import epoch, summarise
 from hatd3.agent_np import TD3, Replay, featurize
 
@@ -71,6 +71,9 @@ def main():
     ap.add_argument("--episodes", type=int, default=300)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--site", default="A", choices=["A", "B", "random"], help="training site; random = new site per episode")
+    ap.add_argument("--init", default=None, help="run directory to initialise from (fine-tuning)")
+    ap.add_argument("--warmup", type=int, default=1000)
     for f in ("no_level2", "no_two_timescale", "no_anchor", "no_shaping", "no_lagrangian", "no_beta_bound", "coupled"):
         ap.add_argument("--" + f.replace("_", "-"), dest=f, action="store_true")
     a = ap.parse_args()
@@ -83,11 +86,19 @@ def main():
     agent = TD3(a.encoder, F, G, E, K, seed=a.seed, twin=td3, delay=2 if td3 else 1, level2=not a.no_level2)
     buf = Replay(100_000, rng)
     lam = np.zeros(2) if not a.no_lagrangian else np.ones(2)
+    if a.init:
+        agent.actor.load(list(np.load(os.path.join(a.init, "actor.npy"), allow_pickle=True)))
+        agent.actor_t.load(agent.actor.state())
+        cst = list(np.load(os.path.join(a.init, "critic.npy"), allow_pickle=True))
+        for c in agent.critics + agent.critics_t:
+            c.load(cst)
+        lam = np.array(json.load(open(os.path.join(a.init, "train.json")))["lam"])
     hist, t0, steps = [], time.time(), 0
     for ep in range(a.episodes):
-        env = make_env(10_000 * (a.seed + 1) + ep, int(rng.choice([2, 3, 4])), coupled=a.coupled)
-        warm = len(buf.data) < 1000
-        explore = 0.5 - 0.3 * ep / a.episodes                       # epsilon over codebook entries
+        site = {"A": SITE_A, "B": SITE_B}.get(a.site) or random_site(5_000_000 + 1000 * a.seed + ep)
+        env = make_env(10_000 * (a.seed + 1) + ep, int(rng.choice([2, 3, 4])), site=site, coupled=a.coupled)
+        warm = len(buf.data) < a.warmup
+        explore = (0.5 - 0.3 * ep / a.episodes) if not a.init else 0.2                       # epsilon over codebook entries
         infos, trans = run_agent_episode(env, agent, a, lam, train=True, rng=rng, warm=warm, explore=explore)
         losses = []
         for tr in trans:
