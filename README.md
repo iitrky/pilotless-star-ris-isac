@@ -1,5 +1,5 @@
 # Pilotless STAR-RIS ISAC with belief-state reinforcement learning
-
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24305221.svg)](https://doi.org/10.5281/zenodo.24305221)
 Complete code for the paper
 
 > G. Arul Dalton and S. Marisargunam, *Belief State Reinforcement Learning for Pilotless Intelligent Surface Control in Vehicular Sensing and Communication*, submitted to SN Computer Science.
@@ -8,7 +8,6 @@ A simultaneously transmitting and reflecting reconfigurable intelligent surface 
 
 Everything in the paper — theory checks, system simulations, the site model, all learned agents, the evaluation protocol, every table and every figure — is produced by the code in this repository. The learning stack is written in NumPy (with its own small automatic-differentiation module), so **no GPU, PyTorch or ray-tracing licence is needed**.
 
----
 
 ## Contents
 
