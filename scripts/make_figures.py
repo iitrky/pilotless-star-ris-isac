@@ -58,6 +58,25 @@ def arrow(ax, pts, label=None, lpos=None, ls="-"):
                 bbox=dict(fc="white", ec="none", pad=0.5))
 
 
+# ------------------------------------------------------------------ Fig8 research methodology workflow
+def fig_method():
+    fig, ax = plt.subplots(figsize=(7.2, 3.9))
+    ax.set_xlim(0, 10); ax.set_ylim(0, 5.4); ax.axis("off")
+    cols = [(0.1, "1  Analysis", ["Lemma 1: gain under", "belief error", "Thm 1: pilot wall", "Prop 1: CRB vs split", "Thm 2: look-ahead"]),
+            (2.6, "2  Verification", ["Fisher-information", "check of the CRB", "Monte Carlo check", "of Lemma 1", "value iteration"]),
+            (5.1, "3  System simulation", ["EKF tracking, TD", "ISAC epochs", "speed sweep 30-150", "km/h; look-ahead", "test (RQ1, RQ2)"]),
+            (7.6, "4  Learning", ["site model A, B,", "random sites", "HA-TD3, -R, -FT", "+ 3 DRL baselines", "(RQ3, RQ4)"])]
+    for x, title, lines in cols:
+        box(ax, x, 2.75, 2.25, 2.45, [title] + lines, fs=7.6, accent=(x > 7))
+    for x0 in (2.35, 4.85, 7.35):
+        arrow(ax, [(x0, 3.97), (x0 + 0.25, 3.97)])
+    box(ax, 0.1, 0.25, 4.6, 1.85, ["5  Protocol fixed before evaluation", "held-out test sets T_A (60), T_B (60),", "T_C (30 unseen sites); seeds disjoint", "from training"], fs=7.6)
+    box(ax, 5.25, 0.25, 4.6, 1.85, ["6  Statistical analysis", "paired Wilcoxon tests, Holm correction,", "bootstrap 95% CIs, ablations,", "sensitivity (speed, echo error, K)"], fs=7.6)
+    arrow(ax, [(8.7, 2.75), (8.7, 2.45), (2.4, 2.45), (2.4, 2.1)])
+    arrow(ax, [(4.7, 1.17), (5.25, 1.17)])
+    save(fig, "Fig8")
+
+
 # ------------------------------------------------------------------ Fig1 system architecture
 def fig1():
     fig, ax = plt.subplots(figsize=(7.0, 3.6))
@@ -250,9 +269,9 @@ def fig8():
         a.set_xlabel("Vehicle speed (km/h)"); a.grid(lw=0.3); a.set_ylim(bottom=0)
         a.text(-0.14, 1.02, f"({l}) N = {N}", transform=a.transAxes, fontsize=9, fontweight="bold")
     axs[0].set_ylabel("Throughput (bit/s/Hz)"); axs[0].legend(fontsize=7)
-    fig.tight_layout(); save(fig, "Fig8")
+    fig.tight_layout(); save(fig, "Fig9")
 
 
 if __name__ == "__main__":
-    for f in (fig1, fig2, fig3, fig4, fig5, fig6, fig7, fig8):
+    for f in (fig1, fig2, fig3, fig4, fig5, fig6, fig7, fig_method, fig8):
         f(); print(f.__name__, "done")

@@ -42,8 +42,10 @@ pytest -q                           # 9 tests, a few seconds
 | CRB vs Fisher information, Proposition 1 (Fig. 5), link budget | `python scripts/verify_theory.py` | `results/theory_checks.json` |
 | Geometric anchor vs perfect CSI | `python scripts/anchor_check.py` | `results/anchor_check.json` |
 | Speed sweep (Table 6, Fig. 8), look-ahead test, headroom (Table 7) | `python scripts/system_eval.py` | `results/system_eval.json` |
-| Learned controllers, baselines, ablations (Tables 8–9, Figs. 9–11) | `bash run_site_training.sh 2` | `runs/`, `results/site_results.json`, `figures/Fig9–Fig11` |
-| Figures 1–8 | `python scripts/make_figures.py` | `figures/Fig1–Fig8.{tif,png}` |
+| Learned controllers, baselines, ablations (training, Figs. 10–12) | `bash run_site_training.sh 2` | `runs/`, `figures/Fig10–Fig12` |
+| Site-randomised and fine-tuned agents (Section 6.6) | see `results/protocol_v2.md` and `scripts/train_site.py --site random` / `--site B --init runs/hatd3_s0` | `runs2/` |
+| Pre-registered evaluation (Tables 9–13) | `python scripts/eval_v2.py && python scripts/eval_abl_v2.py` | `results/eval_v2.json`, `results/eval_abl_v2.json` |
+| Figures 1–9 | `python scripts/make_figures.py` | `figures/Fig1–Fig9.{tif,png}` |
 
 Each command runs on a CPU in seconds to a few minutes.
 

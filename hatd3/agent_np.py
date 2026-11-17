@@ -16,6 +16,7 @@ import numpy as np
 from .site_control import N_BEAM
 from .npnn import T, Param, Module, Linear, MLP, Adam, concat
 
+ECHO_ERR_DB = 1.0                                   # echo-amplitude measurement error (dB)
 NFREQ = (1.5, 3.0, 6.0, 12.0, 24.0, 48.0)                      # position encoding periods [m]
 
 
@@ -33,7 +34,7 @@ def featurize(env, lam=(0.0, 0.0), beta_held=0.5, phase=0.0):
     if not hasattr(env, "feat_rng"):
         env.feat_rng = np.random.default_rng(int(abs(env.p_ent[0, 0]) * 1e6) % (2 ** 32))
     vis = getattr(env, "vis_e", np.ones(len(x)))
-    echo_db = 20 * np.log10(vis + 1e-3) + env.feat_rng.normal(0, 1.0, len(x))
+    echo_db = 20 * np.log10(vis + 1e-3) + env.feat_rng.normal(0, ECHO_ERR_DB, len(x))
     tok = np.concatenate([tok, pe, u[:, [0, 2]], np.sign(env.trk.x[:, 1:2]), (echo_db / 20)[:, None]], 1)
     tok[:, 13] = np.r_[np.full(cfg.K, lam[0]), np.full(cfg.L, lam[1])]          # lambda slot
     glob = np.array([cfg.K_r / cfg.K, cfg.K_t / cfg.K, lam[0], lam[1], beta_held, phase])

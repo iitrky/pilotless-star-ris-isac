@@ -63,7 +63,7 @@ def fig9():
     ax[1].set_title("(b)", loc="left", fontsize=8)
     ax[1].legend(loc="upper left", fontsize=7)
     fig.tight_layout()
-    save(fig, "Fig9")
+    save(fig, "Fig10")
 
 
 def fig10(res):
@@ -82,7 +82,7 @@ def fig10(res):
         a.set_title(t, loc="left", fontsize=8)
     ax[0].legend(fontsize=7)
     fig.tight_layout()
-    save(fig, "Fig10")
+    save(fig, "Fig11")
 
 
 def fig11():
@@ -108,7 +108,7 @@ def fig11():
         a.set_xlabel("Episode"); a.grid(alpha=0.3, lw=0.4); a.set_title(t, loc="left", fontsize=8)
     ax[0].legend(fontsize=6.5); ax[2].legend(fontsize=6.5)
     fig.tight_layout()
-    save(fig, "Fig11")
+    save(fig, "Fig12")
 
 
 if __name__ == "__main__":
