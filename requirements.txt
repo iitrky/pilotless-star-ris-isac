@@ -1,6 +1,7 @@
 numpy>=1.24
 scipy>=1.10
 matplotlib>=3.7
-# torch>=2.1   (optional: earlier PyTorch agent only)
-# optional, ray tracing
-# sionna>=1.0
+pytest>=7.0
+# optional, not needed for the reported results:
+# torch>=2.1       (earlier PyTorch agent: hatd3/agent.py, scripts/train.py)
+# sionna>=1.0      (optional ray-tracing path: scripts/sionna_export.py)
